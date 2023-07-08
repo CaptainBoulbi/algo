@@ -19,6 +19,7 @@ int main(){
 
 	std::cout << "index of 8 : " << linearSearch(arr, len, 8) << std::endl;
 	std::cout << "index of 5 : " << linearSearch(arr, len, 5) << std::endl;
+	std::cout << "index of 11 : " << linearSearch(arr, len, 11) << std::endl;
 
 	return 0;
 }
