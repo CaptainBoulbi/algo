@@ -12,7 +12,7 @@ run : all
 	./main
 
 clean :
-	rm *.o main
+	rm -f *.o main
 
 check :
 	cppcheck --enable=all --suppress=missingIncludeSystem -I. .
