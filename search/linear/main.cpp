@@ -1,6 +1,6 @@
 #include <iostream>
 
-int linearSearch(int arr[], int len, int v){
+int linearSearch(const int arr[], int len, int v){
 	for (int i=0; i<len; i++){
 		if (arr[i] == v){
 			return i;

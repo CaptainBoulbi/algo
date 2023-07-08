@@ -1,9 +1,9 @@
 #include <iostream>
 
 void bubbleSort(int arr[], int len){
-	int change = 0;
+	int change;
 	int count = 1;
-	int swap = 0;
+	int swap;
 	do{
 		change = 0;
 		for (int i=0; i<len-count; i++){

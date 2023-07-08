@@ -2,10 +2,9 @@
 
 // array doit etre trié
 
-int binarySearch(int arr[], int low, int high, int value){
-	int middle;
+int binarySearch(const int arr[], int low, int high, int value){
 	do{
-		middle = low + (high-low)/2;
+		int middle = low + (high-low)/2;
 		if (value == arr[middle]){
 			return middle;
 		}else if (value > arr[middle]){
