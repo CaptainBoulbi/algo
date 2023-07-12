@@ -1,50 +1,10 @@
 #include <iostream>
 
-// insertAt(item T, int n) : void
-// remove(item T) : void
-// removeAt(int n)
-// append(item T) : void
-// insert(item T) : void
-// get(int n) : int
-
 template <typename T>
 struct node{
 	T val;
 	struct node<T> *next;
 };
-
-template <typename T>
-T append(node<T> node, T value, int index){
-	struct node<T>* cursor;
-	cursor = (node<T>*) malloc(16);
-	cursor->val = value;
-	cursor->next = &node;
-	for (int i=0; i<index; i++){
-		cursor->next = cursor->next->next;
-	}
-	struct node<T>* nextAddr = cursor->next->next;
-	cursor->next->next = cursor;
-	cursor->next = nextAddr;
-	return cursor->val;
-}
-
-template <typename T>
-T insert(node<T> node, T value, int index){
-	return append(node, value, index-1);
-}
-
-template <typename T>
-T get(node<T> node, int index){
-	struct node<T> cursor;
-	cursor.next = &node;
-	for (int i=0; i<index; i++){
-		cursor.next = cursor.next->next;
-	}
-	return cursor.next->val;
-};
-
-template <typename T>
-T remove(){};
 
 template <typename T>
 void display(node<T> node){
@@ -57,31 +17,81 @@ void display(node<T> node){
 	std::cout << std::endl;
 };
 
+template <typename T>
+T append(node<T> node, T value, int index){
+	struct node<T>* cursor = new struct node<T>;
+	cursor->val = value;
+	cursor->next = &node;
+	for (int i=0; i<index && cursor->next->next != NULL; i++){
+		cursor->next = cursor->next->next;
+	}
+	struct node<T>* nextAddr = cursor->next->next;
+	cursor->next->next = cursor;
+	cursor->next = nextAddr;
+	display(*cursor);
+	return cursor->val;
+}
+
+template <typename T>
+T insert(node<T> node, T value, int index){
+	return append(node, value, index-1);
+}
+
+template <typename T>
+T get(node<T> node, int index){
+	struct node<T>* cursor;
+	cursor = &node;
+	for (int i=0; i<index && cursor->next != NULL; i++){
+		cursor = cursor->next;
+	}
+	return cursor->val;
+};
+
+template <typename T>
+T remove(){};
+
+template <typename T>
+int length(node<T> node){
+	int len = 0;
+	struct node<T>* cursor = &node;
+	while (cursor->next != NULL){
+		cursor->next = cursor->next->next;
+		len++;
+	}
+	return len+1;
+};
 
 int main(){
 	std::cout << "Linked List" << std::endl;
 
-	struct node<int> n1;
-	n1.val = 10;
-	n1.next = NULL;
+	struct node<int> nnn;
+	nnn.val = 12;
+	nnn.next = NULL;
 
-	struct node<int> n2;
-	n2.val = 9;
-	n2.next = &n1;
+	struct node<int> nn = {11, &nnn};
 
-	struct node<int> n3;
-	n3.val = 8;
-	n3.next = &n2;
+	struct node<int> n;
+	n.val = 10;
+	n.next = &nn;
 
-	struct node<int> n4;
-	n4.val = 7;
-	n4.next = &n3;
+	//display(n);
+	//append(n, 5, 0);
+	//display(n);
+	//append(n, 6, 1);
+	//display(n);
+	//insert(n, 15, 0);
+	//display(n);
+	//insert(n, 16, 1);
+	//display(n);
+	
+	display(n);
 
-	display(n4);
-	insert(n4, 5, 2);
-	display(n4);
-	insert(n4, 1, 3);
-	display(n4);
+	append(n, 5, 0);
+	append(n, 6, 1);
+	insert(n, 7, 0);
+	insert(n, 8, 1);
+
+	display(n);
 
 	return 0;
 }
