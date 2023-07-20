@@ -1,4 +1,4 @@
-FLAGS=-Wall -Wextra
+FLAGS=-Wall -Wextra -Og -g
 
 all : main
 
