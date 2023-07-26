@@ -10,11 +10,12 @@ template <class T>
 class LinkedList{
 	public:
 		LinkedList(){
+			this->head = new node<T>;
 			this->len = 0;
 		};
 
 		void display(){
-			struct node<T> cursor;
+			node<T> cursor;
 			cursor.next = this->head;
 			while (cursor.next != NULL){
 				std::cout << cursor.next->value << ' ';
@@ -24,7 +25,7 @@ class LinkedList{
 		};
 
 		T append(T value, int index){
-			struct node<T>* cursor = new node<T>;
+			node<T>* cursor = new node<T>;
 			cursor->value = value;
 			if (this->len <= 0){
 				this->head = cursor;
@@ -36,7 +37,7 @@ class LinkedList{
 				for (int i=0; i<index && cursor->next->next != NULL; i++){
 					cursor->next = cursor->next->next;
 				}
-				struct node<T>* nextAddr = cursor->next->next;
+				node<T>* nextAddr = cursor->next->next;
 				cursor->next->next = cursor;
 				cursor->next = nextAddr;
 			}
@@ -49,7 +50,7 @@ class LinkedList{
 		}
 
 		T get(int index){
-			struct node<T>* cursor;
+			node<T>* cursor;
 			cursor = this.head;
 			for (int i=0; i<index && cursor->next != NULL; i++){
 				cursor = cursor->next;
@@ -63,7 +64,7 @@ class LinkedList{
 			return this->len;
 		};
 	private:
-		struct node<T>* head;
+		node<T>* head;
 		int len;
 };
 
@@ -127,6 +128,22 @@ int main(){
 	list.display();
 
 	std::cout << list.length() << std::endl;
+
+	LinkedList<char> lista;
+
+	lista.append('a', 0);
+	lista.display();
+
+	lista.insert('c', 0);
+	lista.display();
+
+	lista.append('c', 1);
+	lista.display();
+
+	lista.insert('a', 3);
+	lista.display();
+
+	std::cout << lista.length() << std::endl;
 
 	return 0;
 }
