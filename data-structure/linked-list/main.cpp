@@ -51,14 +51,32 @@ class LinkedList{
 
 		T get(int index){
 			node<T>* cursor;
-			cursor = this.head;
+			cursor = this->head;
 			for (int i=0; i<index && cursor->next != NULL; i++){
 				cursor = cursor->next;
 			}
 			return cursor->value;
 		};
 
-		T remove(){};
+		T remove(int index){
+			node<T>* cursor = new node<T>;
+			cursor = this->head;
+			T returnValue;
+			if (index <= 0){
+				returnValue = cursor->value;
+				this->head = this->head->next;
+			}else{
+				for (int i=0; i<index-1 && cursor->next->next != NULL; i++){
+					cursor = cursor->next;
+				}
+				node<T>* nodeToRemove = cursor->next;
+				returnValue = cursor->next->value;
+				cursor->next = cursor->next->next;
+				delete nodeToRemove;
+			}
+			this->len--;
+			return returnValue ;
+		};
 
 		int length(){
 			return this->len;
@@ -69,81 +87,36 @@ class LinkedList{
 };
 
 int main(){
-	//std::cout << "Linked List" << std::endl;
-
-	//struct node<int> nnn;
-	//nnn.val = 12;
-	//nnn.next = NULL;
-
-	//struct node<int> nn = {11, &nnn};
-
-	//struct node<int> n;
-	//n.val = 10;
-	//n.next = &nn;
-
-	////display(n);
-	////append(n, 5, 0);
-	////display(n);
-	////append(n, 6, 1);
-	////display(n);
-	////insert(n, 15, 0);
-	////display(n);
-	////insert(n, 16, 1);
-	////display(n);
-	//
-	//display(n);
-
-	//append(n, 5, 0);
-	//append(n, 6, 1);
-	//insert(n, 7, 0);
-	//insert(n, 8, 1);
-
-	//display(n);
-
 	LinkedList<int> list;
-	list.display();
-
 	list.append(5,1);
-	list.display();
-
 	list.insert(6,1);
-	list.display();
-
 	list.append(15,0);
-	list.display();
-
 	list.insert(16,0);
-	list.display();
-
 	list.append(25,list.length());
-	list.display();
-
 	list.insert(26,list.length());
-	list.display();
-
 	list.append(35,1);
-	list.display();
-
 	list.insert(36,1);
 	list.display();
-
 	std::cout << list.length() << std::endl;
+	std::cout << list.remove(-1) << std::endl;
+	list.display();
+	std::cout << list.remove(3) << std::endl;
+	list.display();
 
-	LinkedList<char> lista;
+	LinkedList<char> listc;
+	listc.append('a', 0);
+	listc.insert('c', 0);
+	listc.append('c', 1);
+	listc.insert('a', 3);
+	listc.display();
+	std::cout << listc.length() << std::endl;
+	std::cout << listc.remove(listc.length()+1) << std::endl;
+	listc.display();
 
-	lista.append('a', 0);
-	lista.display();
-
-	lista.insert('c', 0);
-	lista.display();
-
-	lista.append('c', 1);
-	lista.display();
-
-	lista.insert('a', 3);
-	lista.display();
-
-	std::cout << lista.length() << std::endl;
+	for (int i=0; i<listc.length(); i++){
+		std::cout << listc.get(i);
+	}
+	std::cout << std::endl;
 
 	return 0;
 }
