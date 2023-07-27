@@ -59,8 +59,11 @@ class LinkedList{
 		};
 
 		T remove(int index){
-			node<T>* cursor = new node<T>;
-			cursor = this->head;
+			if (!this->len){
+				this->head = NULL;
+				return (T)NULL;
+			}
+			node<T>* cursor = this->head;
 			T returnValue;
 			if (index <= 0){
 				returnValue = cursor->value;
@@ -118,6 +121,16 @@ int main(){
 		std::cout << listc.get(i);
 	}
 	std::cout << std::endl;
+
+	std::cout << listc.length() << std::endl;
+
+	int y = listc.length()+1;
+	for (int i=0; i<y; i++){
+		std::cout << listc.remove(0) << std::endl;
+	}
+	listc.append('h', 0);
+	listc.display();
+	std::cout << listc.length() << std::endl;
 
 	return 0;
 }
