@@ -10,7 +10,7 @@ template <class T>
 class LinkedList{
 	public:
 		LinkedList(){
-			this->head = new node<T>;
+			this->head = NULL;
 			this->len = 0;
 		};
 
@@ -88,6 +88,7 @@ class LinkedList{
 
 int main(){
 	LinkedList<int> list;
+	list.display();
 	list.append(5,1);
 	list.insert(6,1);
 	list.append(15,0);
