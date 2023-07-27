@@ -17,7 +17,7 @@ class LinkedList{
 		void display(){
 			node<T> cursor;
 			cursor.next = this->head;
-			while (cursor.next != NULL){
+			while (cursor.next){
 				std::cout << cursor.next->value << ' ';
 				cursor.next = cursor.next->next;
 			}
@@ -34,7 +34,7 @@ class LinkedList{
 				this->head = cursor;
 			}else{
 				cursor->next = this->head;
-				for (int i=0; i<index && cursor->next->next != NULL; i++){
+				for (int i=0; i<index && cursor->next->next; i++){
 					cursor->next = cursor->next->next;
 				}
 				node<T>* nextAddr = cursor->next->next;
@@ -52,7 +52,7 @@ class LinkedList{
 		T get(int index){
 			node<T>* cursor;
 			cursor = this->head;
-			for (int i=0; i<index && cursor->next != NULL; i++){
+			for (int i=0; i<index && cursor->next; i++){
 				cursor = cursor->next;
 			}
 			return cursor->value;
@@ -66,7 +66,7 @@ class LinkedList{
 				returnValue = cursor->value;
 				this->head = this->head->next;
 			}else{
-				for (int i=0; i<index-1 && cursor->next->next != NULL; i++){
+				for (int i=0; i<index-1 && cursor->next->next; i++){
 					cursor = cursor->next;
 				}
 				node<T>* nodeToRemove = cursor->next;
