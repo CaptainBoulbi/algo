@@ -31,6 +31,7 @@ class Queue{
 			node<T>* nodeToRemove = this->head;
 			this->head = this->head->next;
 			delete nodeToRemove;
+			if (!this->len) this->tail = NULL;
 			return returnValue;
 		};
 
