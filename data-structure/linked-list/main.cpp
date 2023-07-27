@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 template <typename T>
 struct node{
@@ -14,14 +15,16 @@ class LinkedList{
 			this->len = 0;
 		};
 
-		void display(){
-			node<T> cursor;
-			cursor.next = this->head;
-			while (cursor.next){
-				std::cout << cursor.next->value << ' ';
-				cursor.next = cursor.next->next;
+		std::string toString(){
+			if (!this->head) return "empty";
+			std::string string;
+			node<T>* cursor;
+			cursor = this->head;
+			while (cursor->next){
+				string += std::to_string(cursor->value) + ' ';
+				cursor = cursor->next;
 			}
-			std::cout << std::endl;
+			return string;
 		};
 
 		T append(T value, int index){
@@ -91,7 +94,7 @@ class LinkedList{
 
 int main(){
 	LinkedList<int> list;
-	list.display();
+	std::cout << list.toString() << std::endl;
 	list.append(5,1);
 	list.insert(6,1);
 	list.append(15,0);
@@ -100,22 +103,22 @@ int main(){
 	list.insert(26,list.length());
 	list.append(35,1);
 	list.insert(36,1);
-	list.display();
+	std::cout << list.toString() << std::endl;
 	std::cout << list.length() << std::endl;
 	std::cout << list.remove(-1) << std::endl;
-	list.display();
+	std::cout << list.toString() << std::endl;
 	std::cout << list.remove(3) << std::endl;
-	list.display();
+	std::cout << list.toString() << std::endl;
 
 	LinkedList<char> listc;
 	listc.append('a', 0);
 	listc.insert('c', 0);
 	listc.append('c', 1);
 	listc.insert('a', 3);
-	listc.display();
+	std::cout << listc.toString() << std::endl;
 	std::cout << listc.length() << std::endl;
 	std::cout << listc.remove(listc.length()+1) << std::endl;
-	listc.display();
+	std::cout << listc.toString() << std::endl;
 
 	for (int i=0; i<listc.length(); i++){
 		std::cout << listc.get(i);
@@ -129,7 +132,7 @@ int main(){
 		std::cout << listc.remove(0) << std::endl;
 	}
 	listc.append('h', 0);
-	listc.display();
+	std::cout << listc.toString() << std::endl;
 	std::cout << listc.length() << std::endl;
 
 	return 0;
