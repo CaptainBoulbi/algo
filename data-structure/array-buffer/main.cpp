@@ -9,18 +9,6 @@ class ArrayBuffer{
 
 		T get(){};
 
-		T front(){};
-
-		T back(){};
-
-		T push_front(){};
-
-		T push_back(){};
-
-		T pop_front(){};
-
-		T pop_back(){};
-
 		int resize(){};
 
 		int length(){};
