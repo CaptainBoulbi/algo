@@ -10,47 +10,15 @@ class ArrayList{
 
 		std::string toString(){};
 
-		T front(){};
-
-		T back(){};
-
-		int empty(){};
-
 		int length(){};
 
 		int capacity(){};
 
-		void clear(){};
-
-		T insert(){};
-
-		T erase(){};
-
-		T push_front(){};
-
-		T push_back(){};
-
-		T pop_front(){};
-
-		T pop_back(){};
-
 		int resize(){};
 
-		void swap(){};
-
-		void merge(){};
-
-		void reverse(){};
-
-		int unique(){};
-
-		void sort(){};
+		T set(){};
 
 		T get(){};
-
-		T enqueue(){};
-
-		T deque(){};
 
 	private:
 		int len;
