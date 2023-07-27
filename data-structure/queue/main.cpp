@@ -10,33 +10,25 @@ template <class T>
 class Queue{
 	public:
 		Queue(){
-			this->head = NULL;
-			this->tail = this->head;
+			this->head = this->tail = NULL;
 		};
 
 		T enqueue(T value){
-			if (this->tail == NULL){
-				this->tail = new node<T>;
-				this->tail->value = value;
-				this->head = this->tail;
-			}else{
-				node<T>* newNode = new node<T>;
-				newNode->value = value;
-				this->tail->next = newNode;
-				this->tail = newNode;
-			}
+			node<T>* newNode = new node<T> {value, NULL};
+			if (!this->tail)
+				this->head = this->tail = newNode;
+			else
+				this->tail = this->tail->next = newNode;
 			return value;
 		};
 
 		T deque(){
-			if (this->head != NULL){
-				T returnValue = this->head->value;
-				node<T>* nodeToRemove = this->head;
-				this->head = this->head->next;
-				delete nodeToRemove;
-				return returnValue;
-			}
-			return (int)NULL;
+			if (!this->head) return (int)NULL;
+			T returnValue = this->head->value;
+			node<T>* nodeToRemove = this->head;
+			this->head = this->head->next;
+			delete nodeToRemove;
+			return returnValue;
 		};
 
 		T peek(){
