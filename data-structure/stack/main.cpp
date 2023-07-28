@@ -25,7 +25,7 @@ class Stack{
 			if (!this->head) return (T)NULL;
 			this->len--;
 			node<T>* nodeToRemove = this->head;
-			T returnValue = this->head->value;
+			T returnValue = nodeToRemove->value;
 			this->head = this->head->next;
 			delete nodeToRemove;
 			return returnValue;
@@ -54,6 +54,8 @@ int main(){
 	std::cout << "pop:" << S.pop() << '\n' << S.length() << " : " << S.peek() << std::endl;
 	std::cout << "pop:" << S.pop() << '\n' << S.length() << " : " << S.peek() << std::endl;
 	std::cout << "pop:" << S.pop() << '\n' << S.length() << " : " << S.peek() << std::endl;
+	S.push(7);
+	std::cout << S.length() << " : " << S.peek() << std::endl;
 
 	return 0;
 }

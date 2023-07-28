@@ -34,7 +34,7 @@ class ArrayList{
 		int resize(int newCapacity){
 			this->cap = newCapacity;
 			T* newArr = new T[newCapacity];
-			for (int i=0; i<newCapacity; i++){
+			for (int i=0; i<newCapacity || i<this->len; i++){
 				newArr[i] = this->array[i];
 			}
 			delete this->array;
