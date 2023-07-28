@@ -1,5 +1,10 @@
 #include <iostream>
 
+template<typename T>
+T min(T a, T b){
+	return a<b ? a : b;
+}
+
 template <class T>
 class ArrayBuffer{
 	public:
@@ -11,19 +16,22 @@ class ArrayBuffer{
 		};
 
 		T set(T value,int index){
+			int indexValue = (this->head + index) % this->cap;
 			if (index >= this->len){
-				this->len = index+1;
-				this->tail = (this->head + index) % this->cap;
+				this->array[indexValue] = value;
+				this->tail = indexValue;
+				this->len = min(this->cap, index+1);
 			}else if (index < 0){
-				this->len -= index;
-				this->head = (this->head + index) % this->cap;
+				this->array[indexValue] = value;
+				this->head = indexValue;
+				this->len = min(this->cap, this->len-index);
+			}else{
+				this->array[indexValue] = value;
 			}
-			this->array[(this->head + index) % this->cap] = value;
 			return value;
 		};
 
 		T get(int index){
-			//if (this->head == this->tail) return (T)NULL;
 			return this->array[(this->head + index) % this->cap];
 		};
 
@@ -43,6 +51,13 @@ class ArrayBuffer{
 			return string;
 		};
 
+		void display(){
+			for (int i=0; i<this->cap; i++){
+				std::cout << this->array[i] << ' ';
+			}
+			std::cout << std::endl;
+		}
+
 	private:
 		T* array;
 		int head;
@@ -53,23 +68,17 @@ class ArrayBuffer{
 
 int main(){
 	ArrayBuffer<int> ab(10);
-	//for (int i=0; i<10; i++){
-	//	ab.set(i*i,i);
-	//	std::cout << ab.toString() << ';' << ab.length() << ';' << ab.capacity() << std::endl;
-	//}
 
-	for (int i=0; i<5; i++){
+	for (int i=0; i<10; i++){
 		ab.set(i*i,i);
-		std::cout << ab.toString() << ';' << ab.length() << ';' << ab.capacity() << std::endl;
+		std::cout << i << ';' << ab.toString() << ';' << ab.length() << ';' << ab.capacity() << std::endl;
 	}
 
-	for (int i=5; i<10; i++){
-		ab.set(i*i,-1);
-		std::cout << ab.toString() << ';' << ab.length() << ';' << ab.capacity() << std::endl;
-	}
+	// not throw error when head and tail pass through
+	ab.set(77,-2);
+	ab.set(777,2);
 
-	ab.set(7,7);
-	std::cout << ab.toString() << ';' << ab.length() << ';' << ab.capacity() << std::endl;
+	ab.display();
 
 	return 0;
 }
