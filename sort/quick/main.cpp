@@ -1,8 +1,34 @@
 #include <iostream>
 
-void quickSort(int arr[], int len){
-	len = arr[0];
-	len++;
+int partition(int arr[], int lo, int hi){
+	const int pivot = arr[hi];
+	int idx = lo - 1;
+
+	for (int i=lo; i<hi; i++){
+		if (arr[i] <= pivot){
+			idx++;
+			const int tmp = arr[i];
+			arr[i] = arr[idx];
+			arr[idx] = tmp;
+		}
+	}
+
+	idx++;
+	arr[hi] = arr[idx];
+	arr[idx] = pivot;
+
+	return idx;
+}
+
+void quickSort(int arr[], int lo, int hi){
+	if (lo >= hi){
+		return;
+	}
+
+	const int pivotIdx = partition(arr, lo, hi);
+
+	quickSort(arr, lo, pivotIdx - 1);
+	quickSort(arr, pivotIdx + 1, hi);
 }
 
 int main(){
@@ -14,7 +40,7 @@ int main(){
 	for (int i=1; i<len; i++){ std::cout << "," << arr1[i]; }
 	std::cout << std::endl;
 
-	quickSort(arr1, len);
+	quickSort(arr1, 0, len-1);
 
 	std::cout << "trié = " << arr1[0];
 	for (int i=1; i<len; i++){ std::cout << "," << arr1[i]; }
@@ -26,7 +52,7 @@ int main(){
 	for (int i=1; i<len; i++){ std::cout << "," << arr2[i]; }
 	std::cout << std::endl;
 
-	quickSort(arr2, len);
+	quickSort(arr2, 2, len-2);
 
 	std::cout << "trié = " << arr2[0];
 	for (int i=1; i<len; i++){ std::cout << "," << arr2[i]; }
