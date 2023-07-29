@@ -1,16 +1,54 @@
 #include <iostream>
 #include <fstream>
-struct point;
-#include "ArrayList.hpp"
+#include <unistd.h> 
+
+template <typename T>
+struct node{
+	T value;
+	struct node<T> *next;
+};
+
+template <class T>
+class Stack{
+	public:
+		Stack(){
+			this->head = NULL;
+			this->len = 0;
+		};
+
+		T push(T value){
+			if (!this->head) this->head = new node<T> {value, NULL};
+			else this->head = new node<T> {value, this->head};
+			this->len++;
+			return value;
+		};
+
+		T pop(){
+			if (!this->head) throw "pop empty stack";
+			this->len--;
+			node<T>* nodeToRemove = this->head;
+			T returnValue = nodeToRemove->value;
+			this->head = this->head->next;
+			delete nodeToRemove;
+			return returnValue;
+		};
+
+		T peek(){
+			if (!this->head) throw "peek empty stack";
+			return this->head->value;
+		};
+
+		int length(){
+			return this->len;
+		};
+	private:
+		node<T>* head;
+		int len;
+};
 
 struct point{
 	int x;
 	int y;
-};
-
-struct path{
-	ArrayList<point>* points;
-	int length;
 };
 
 struct maze{
@@ -20,6 +58,14 @@ struct maze{
 	point start;
 	point end;
 };
+
+struct dirr{
+	int length = 4;
+	int x[4] = {-1,0,1,0};
+	int y[4] = { 0,1,0,-1};
+};
+
+dirr dirr;
 
 void init(maze* maze){
 	maze->maze = new char*[maze->row];
@@ -48,32 +94,6 @@ void open(maze* maze, std::string path){
 	}
 }
 
-void display(maze* maze){
-	for (int i=0; i<maze->row; i++){
-		for (int y=0; y<maze->col; y++){
-			std::cout << maze->maze[i][y];
-		}
-		std::cout << std::endl;
-	}
-}
-
-bool walk(maze* maze, point current, path* path){
-	std::cout << maze << &current << path << std::endl;
-	return true;
-};
-
-path* solve(maze* maze){
-	path* chemin = new path;
-	chemin->points = new ArrayList<point>(10);
-	for (int i=0; i<5; i++){
-		chemin->points->set(i, {4,i+5});
-	}
-	chemin->length = 5;
-
-	walk(maze, maze->start, chemin);
-	return chemin;
-};
-
 void copie(maze* original, maze* copie){
 	copie->col = original->col;
 	copie->row = original->row;
@@ -87,14 +107,63 @@ void copie(maze* original, maze* copie){
 	}
 }
 
-void displayPath(maze* maze, path* path){
+void display(maze* maze){
+	for (int i=0; i<maze->row; i++){
+		for (int y=0; y<maze->col; y++){
+			std::cout << maze->maze[i][y];
+		}
+		std::cout << std::endl;
+	}
+}
+
+void displayPath(maze* maze, Stack<point>* path){
 	struct maze solution;
 	copie(maze, &solution);
-	for (int i=0; i<path->length; i++){
-		solution.maze[path->points->get(i).x][path->points->get(i).y] = 'X';
+	int len = path->length();
+		std::cout << "\033[" << maze->row << "E";
+	for (int i=0; i<len; i++){
+		solution.maze[path->peek().x][path->pop().y] = '.';
+		std::cout << "\033[" << maze->row << "F";
+		display(&solution);
+		usleep(50000);
 	}
-	display(&solution);
 }
+
+bool walk(maze* maze, point current, Stack<point>* path){
+	if (current.x < 0 || current.x >= maze->row ||
+		current.y < 0 || current.y >= maze->col){
+		return false;
+	}
+	if (maze->maze[current.x][current.y] == '#'){
+		return false;
+	}
+	if (maze->maze[current.x][current.y] == 'X'){
+		return false;
+	}
+	if (current.x == maze->end.x && current.y == maze->end.y){
+		path->push(current);
+		return true;
+	}
+
+	maze->maze[current.x][current.y] = 'X';
+
+	for (int i=0; i<4; i++){
+		if (walk(maze, {current.x+dirr.x[i],current.y+dirr.y[i]}, path)){
+			path->push(current);
+			return true;
+		}
+	}
+
+	return false;
+};
+
+Stack<point>* solve(maze* maze){
+	Stack<point>* chemin = new Stack<point>;
+	struct maze solution;
+	copie(maze, &solution);
+	walk(&solution, maze->start, chemin);
+	return chemin;
+};
 
 int main(){
 	maze maze;
@@ -104,7 +173,9 @@ int main(){
 	display(&maze);
 
 	std::cout << "Solution :" << std::endl;
-	displayPath(&maze, solve(&maze));
+	Stack<point>* path = solve(&maze);
+	displayPath(&maze, path);
+	delete path;
 
 	return 0;
 }
