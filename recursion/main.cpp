@@ -63,9 +63,7 @@ struct dirr{
 	int length = 4;
 	int x[4] = {-1,0,1,0};
 	int y[4] = { 0,1,0,-1};
-};
-
-dirr dirr;
+}dirr;
 
 void init(maze* maze){
 	maze->maze = new char*[maze->row];
