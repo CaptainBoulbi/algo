@@ -2,10 +2,10 @@
 #include <string>
 
 template <typename T>
-struct node{
+struct doubleNode{
 	T value;
-	struct node<T> *next;
-	struct node<T> *prev;
+	struct doubleNode<T> *next;
+	struct doubleNode<T> *prev;
 };
 
 template <class T>
@@ -19,7 +19,7 @@ class DoubleLinkedList{
 		std::string toString(){
 			if (!this->head) return "empty";
 			std::string string;
-			node<T>* cursor;
+			doubleNode<T>* cursor;
 			cursor = this->head;
 			int tlen = this->len;
 			for (int i=0; i<tlen; i++){
@@ -31,7 +31,7 @@ class DoubleLinkedList{
 
 		T insert(T value, int index){
 			index--;
-			node<T>* cursor = new node<T> {value, NULL, NULL};
+			doubleNode<T>* cursor = new doubleNode<T> {value, NULL, NULL};
 			if (this->len <= 0) this->head = cursor;
 			else if (index < 0){
 				cursor->next = this->head;
@@ -52,7 +52,7 @@ class DoubleLinkedList{
 		}
 
 		T get(int index){
-			node<T>* cursor;
+			doubleNode<T>* cursor;
 			cursor = this->head;
 			for (int i=0; i<index && cursor->next; i++){
 				cursor = cursor->next;
@@ -61,7 +61,7 @@ class DoubleLinkedList{
 		};
 
 		T set(T value, int index){
-			node<T>* cursor;
+			doubleNode<T>* cursor;
 			cursor = this->head;
 			for (int i=0; i<index && cursor->next; i++){
 				cursor = cursor->next;
@@ -75,7 +75,7 @@ class DoubleLinkedList{
 				this->head = NULL;
 				return (T)NULL;
 			}
-			node<T>* cursor = this->head;
+			doubleNode<T>* cursor = this->head;
 			T returnValue;
 			if (index <= 0){
 				returnValue = cursor->value;
@@ -98,7 +98,7 @@ class DoubleLinkedList{
 			return this->len;
 		};
 	private:
-		node<T>* head;
+		doubleNode<T>* head;
 		int len;
 };
 
