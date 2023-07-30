@@ -13,6 +13,11 @@ ArrayList<T>::ArrayList(int capacity){
 };
 
 template <class T>
+ArrayList<T>::~ArrayList(){
+	delete this->array;
+};
+
+template <class T>
 std::string ArrayList<T>::toString(){
 	std::string string;
 	for (int i=0; i<this->len; i++){
@@ -58,44 +63,44 @@ T ArrayList<T>::get(int index){
 	return this->array[index];
 };
 
-//int main(){
-//	ArrayList<int> l(5);
-//	std::cout << "len : " << l.length() << " cap : " << l.capacity() << std::endl;
-//	std::cout << "disp : " << l.toString() << std::endl;
-//
-//	int y = l.capacity()+5;
-//	for (int i=0; i<y; i++){
-//		l.set(i,i*i);
-//		std::cout << "add : " << i*i << std::endl;
-//	}
-//
-//	std::cout << "len : " << l.length() << " cap : " << l.capacity() << std::endl;
-//	std::cout << "disp : " << l.toString() << std::endl;
-//
-//	// sould throw an error
-//	std::cout << "get : " << l.get(l.length()+5) << " at : " << l.length()+5 << std::endl;
-//	std::cout << "get : " << l.get(-1) << " at : -1" << std::endl;
-//
-//	std::cout << "man get : " << l.array[5] << " at 5" << std::endl;
-//	std::cout << "man get : " << l.array[-1] << " at -1" << std::endl;
-//
-//	std::cout << "char array list" << std::endl;
-//
-//	ArrayList<char> c(5);
-//
-//	for (int i=0; i<10; i+=2){
-//		c.set(i,'c');
-//		c.set(i+1,'a');
-//	}
-//
-//	for (int i=0; i<c.length(); i++){
-//		std::cout << c.get(i) << ' ';
-//	}
-//	std::cout << std::endl;
-//
-//	// ;{
-//	std::cout << c.toString() << std::endl;
-//	std::cout << c.length() << ' ' << c.capacity() << std::endl;
-//
-//	return 0;
-//}
+int main(){
+	ArrayList<int> l(5);
+	std::cout << "len : " << l.length() << " cap : " << l.capacity() << std::endl;
+	std::cout << "disp : " << l.toString() << std::endl;
+
+	int y = l.capacity()+5;
+	for (int i=0; i<y; i++){
+		l.set(i,i*i);
+		std::cout << "add : " << i*i << std::endl;
+	}
+
+	std::cout << "len : " << l.length() << " cap : " << l.capacity() << std::endl;
+	std::cout << "disp : " << l.toString() << std::endl;
+
+	// sould throw an error
+	std::cout << "get : " << l.get(l.length()+5) << " at : " << l.length()+5 << std::endl;
+	std::cout << "get : " << l.get(-1) << " at : -1" << std::endl;
+
+	std::cout << "man get : " << l.array[5] << " at 5" << std::endl;
+	std::cout << "man get : " << l.array[-1] << " at -1" << std::endl;
+
+	std::cout << "char array list" << std::endl;
+
+	ArrayList<char> c(5);
+
+	for (int i=0; i<10; i+=2){
+		c.set(i,'c');
+		c.set(i+1,'a');
+	}
+
+	for (int i=0; i<c.length(); i++){
+		std::cout << c.get(i) << ' ';
+	}
+	std::cout << std::endl;
+
+	// ;{
+	std::cout << c.toString() << std::endl;
+	std::cout << c.length() << ' ' << c.capacity() << std::endl;
+
+	return 0;
+}

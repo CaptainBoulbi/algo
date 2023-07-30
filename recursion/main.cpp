@@ -16,6 +16,10 @@ class Stack{
 			this->len = 0;
 		};
 
+		~Stack(){
+			delete this->head;
+		}
+
 		T push(T value){
 			if (!this->head) this->head = new node<T> {value, NULL};
 			else this->head = new node<T> {value, this->head};

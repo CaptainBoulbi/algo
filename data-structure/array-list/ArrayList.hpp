@@ -6,6 +6,7 @@ class ArrayList{
 	public:
 		T* array;
 		ArrayList(int capacity);
+		~ArrayList();
 		std::string toString();
 		int length();
 		int capacity();

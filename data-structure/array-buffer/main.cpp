@@ -8,12 +8,16 @@ T min(T a, T b){
 template <class T>
 class ArrayBuffer{
 	public:
-		ArrayBuffer(int capacity){
+		explicit ArrayBuffer(int capacity){
 			this->array = new T[capacity];
 			this->tail = this->head = capacity/2;
 			this->len = 0;
 			this->cap = capacity;
 		};
+
+		~ArrayBuffer(){
+			delete this->array;
+		}
 
 		T set(T value,int index){
 			int indexValue = (this->head + index) % this->cap;
