@@ -20,19 +20,19 @@ class LinkedList{
 			std::string string;
 			node<T>* cursor;
 			cursor = this->head;
-			while (cursor->next){
+			int tlen = this->len;
+			for (int i=0; i<tlen; i++){
 				string += std::to_string(cursor->value) + ' ';
 				cursor = cursor->next;
 			}
 			return string;
 		};
 
-		T append(T value, int index){
-			node<T>* cursor = new node<T>;
-			cursor->value = value;
-			if (this->len <= 0){
-				this->head = cursor;
-			}else if (index < 0){
+		T insert(T value, int index){
+			index--;
+			node<T>* cursor = new node<T> {value, NULL};
+			if (this->len <= 0) this->head = cursor;
+			else if (index < 0){
 				cursor->next = this->head;
 				this->head = cursor;
 			}else{
@@ -48,10 +48,6 @@ class LinkedList{
 			return cursor->value;
 		}
 
-		T insert(T value, int index){
-			return this->append(value, index-1);
-		}
-
 		T get(int index){
 			node<T>* cursor;
 			cursor = this->head;
@@ -59,6 +55,16 @@ class LinkedList{
 				cursor = cursor->next;
 			}
 			return cursor->value;
+		};
+
+		T set(T value, int index){
+			node<T>* cursor;
+			cursor = this->head;
+			for (int i=0; i<index && cursor->next; i++){
+				cursor = cursor->next;
+			}
+			cursor->value = value;
+			return value;
 		};
 
 		T remove(int index){
@@ -95,13 +101,24 @@ class LinkedList{
 int main(){
 	LinkedList<int> list;
 	std::cout << list.toString() << std::endl;
-	list.append(5,1);
+	list.insert(5,0);
+	std::cout << list.toString() << std::endl;
+	list.set(4,0);
+	std::cout << list.toString() << std::endl;
 	list.insert(6,1);
-	list.append(15,0);
+	std::cout << list.toString() << std::endl;
+	list.insert(15,0);
+	std::cout << list.toString() << std::endl;
 	list.insert(16,0);
-	list.append(25,list.length());
+	std::cout << list.toString() << std::endl;
+	list.insert(25,list.length());
+	std::cout << list.toString() << std::endl;
+	list.set(24,list.length());
+	std::cout << list.toString() << std::endl;
 	list.insert(26,list.length());
-	list.append(35,1);
+	std::cout << list.toString() << std::endl;
+	list.insert(35,1);
+	std::cout << list.toString() << std::endl;
 	list.insert(36,1);
 	std::cout << list.toString() << std::endl;
 	std::cout << list.length() << std::endl;
@@ -111,9 +128,9 @@ int main(){
 	std::cout << list.toString() << std::endl;
 
 	LinkedList<char> listc;
-	listc.append('a', 0);
+	listc.insert('a', 0);
 	listc.insert('c', 0);
-	listc.append('c', 1);
+	listc.insert('c', 1);
 	listc.insert('a', 3);
 	std::cout << listc.toString() << std::endl;
 	std::cout << listc.length() << std::endl;
@@ -131,7 +148,7 @@ int main(){
 	for (int i=0; i<y; i++){
 		std::cout << listc.remove(0) << std::endl;
 	}
-	listc.append('h', 0);
+	listc.insert('h', 0);
 	std::cout << listc.toString() << std::endl;
 	std::cout << listc.length() << std::endl;
 
