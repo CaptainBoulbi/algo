@@ -13,6 +13,7 @@ class ArrayList{
 		int resize(int newCapacity);
 		T set(int index, T value);
 		T get(int index);
+		T pop();
 
 	private:
 		int len;

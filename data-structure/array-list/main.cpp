@@ -51,16 +51,25 @@ int ArrayList<T>::resize(int newCapacity){
 template <class T>
 T ArrayList<T>::set(int index, T value){
 	if (index >= this->len) this->len = index+1;
-	if (index >= this->cap) this->resize(this->cap + std::sqrt(this->cap));
+	if (index >= this->cap) this->resize(index + std::sqrt(index));
 	this->array[index] = value;
 	return value;
 };
 
 template <class T>
 T ArrayList<T>::get(int index){
-	// sould throw an error
-	if (index >= this->len) return (T)NULL;
+	if (index >= this->len) throw "out bound array";
 	return this->array[index];
+};
+
+template <class T>
+T ArrayList<T>::pop(){
+	if (this->len <= 0) throw "pop empty list";
+	T value = this->array[this->len-1];
+	int gap = this->cap - std::sqrt(this->cap);
+	this->len--;
+	if (this->len <= gap) this->resize(gap);
+	return value;
 };
 
 int main(){
@@ -77,12 +86,27 @@ int main(){
 	std::cout << "len : " << l.length() << " cap : " << l.capacity() << std::endl;
 	std::cout << "disp : " << l.toString() << std::endl;
 
-	// sould throw an error
-	std::cout << "get : " << l.get(l.length()+5) << " at : " << l.length()+5 << std::endl;
-	std::cout << "get : " << l.get(-1) << " at : -1" << std::endl;
+	//std::cout << "get : " << l.get(l.length()+5) << " at : " << l.length()+5 << std::endl;
+	//std::cout << "get : " << l.get(-1) << " at : -1" << std::endl;
 
 	std::cout << "man get : " << l.array[5] << " at 5" << std::endl;
 	std::cout << "man get : " << l.array[-1] << " at -1" << std::endl;
+
+	std::cout << "pooped : ";
+	for (int i=0; i<10; i++){
+		std::cout << l.pop() << ' ';
+	}
+	std::cout << std::endl;
+	std::cout << "len : " << l.length() << " cap : " << l.capacity() << std::endl;
+	std::cout << "disp : " << l.toString() << std::endl;
+
+	y = l.capacity()+5;
+	for (int i=0; i<y; i++){
+		l.set(i,i*i);
+		std::cout << "add : " << i*i << std::endl;
+	}
+	std::cout << "len : " << l.length() << " cap : " << l.capacity() << std::endl;
+	std::cout << "disp : " << l.toString() << std::endl;
 
 	std::cout << "char array list" << std::endl;
 
