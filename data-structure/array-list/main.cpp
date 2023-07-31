@@ -68,7 +68,7 @@ T ArrayList<T>::pop(){
 	T value = this->array[this->len-1];
 	int gap = this->cap - std::sqrt(this->cap);
 	this->len--;
-	if (this->len <= gap) this->resize(gap);
+	if (this->len <= gap) this->resize(gap+1);
 	return value;
 };
 
@@ -100,7 +100,7 @@ int main(){
 	std::cout << "len : " << l.length() << " cap : " << l.capacity() << std::endl;
 	std::cout << "disp : " << l.toString() << std::endl;
 
-	y = l.capacity()+5;
+	y = 15;
 	for (int i=0; i<y; i++){
 		l.set(i,i*i);
 		std::cout << "add : " << i*i << std::endl;
