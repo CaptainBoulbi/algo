@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unordered_map>
+#include <cstring>
 
 struct player{
 	char name[10];
@@ -27,6 +28,24 @@ int main(){
 	display(map["hamood"]);
 	display(map["clavier"]);
 	display(map["aypierre"]);
+
+	std::cout << "unknown player" << std::endl;
+	display(map["unknown"]);
+
+	player* up = &map["unknown"];
+	strncpy(up->name, "jorj", sizeof(up->name));
+	up->id = 5;
+	up->pv = 2;
+	up->xp = 12;
+
+	std::cout << "init unknown player" << std::endl;
+	display(map["unknown"]);
+
+	player* p = &map["hamood"];
+	p->pv--;
+	std::cout << "hamood take one damage" << std::endl;
+
+	display(map["hamood"]);
 
 	return 0;
 }
