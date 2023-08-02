@@ -47,5 +47,17 @@ int main(){
 
 	display(map["hamood"]);
 
+	std::cout << "is hamood player exist ? " << (map.find("hamood") != map.end()) << std::endl;
+	std::cout << "is toast player exist ? " << (map.find("toast") != map.end()) << std::endl;
+
+	std::cout << "remove hamood ;{" << std::endl;
+	map.erase("hamood");
+
+	std::cout << "loop into the map" << std::endl;
+
+	for (auto& [key, value] : map){
+		std::cout << key << "\n  " << value.name << " : " << value.pv << std::endl;
+	}
+
 	return 0;
 }
