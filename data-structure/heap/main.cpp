@@ -94,7 +94,6 @@ class MinHeap{
 
 		MinHeap(){
 			this->data = new ArrayList<T>(10);
-			this->len = 0;
 		};
 
 		~MinHeap(){
@@ -102,40 +101,36 @@ class MinHeap{
 		};
 
 		T insert(T value){
-			this->data->set(this->len, value);
-			this->heapifyUp(this->len);
-			this->len++;
+			this->data->set(this->data->length(), value);
+			this->heapifyUp(this->data->length()-1);
 			return value;
 		};
 
 		T remove(){
-			if (!this->len) throw "remove on empty heap";
-			this->len--;
-			T returnValue = this->data->get(this->len);
-			if (this->len){
-				delete this->data;
-				this->data = new ArrayList<T>(10);
+			if (!this->data->length()) throw "remove on empty heap";
+			T returnValue = this->data->get(this->data->length()-1);
+			if (this->data->length()){
+				this->data->pop();
 				return returnValue;
 			}
-			this->data->set(0, this->data->get(this->len));
+			this->data->set(0, this->data->get(this->data->length()));
+			this->data->pop();
 			this->heapifyDown(0);
 			return returnValue;
 		};
 
 		int length(){
-			return this->len;
+			return this->data->length();
 		};
 
 	private:
-		int len;
-
 		void heapifyDown(int index){
-			if (index >= this->len) return;
+			if (index >= this->data->length()) return;
 
 			int Lindex = this->leftChild(index);
 			int Rindex = this->rightChild(index);
 
-			if (Lindex >= this->len) return;
+			if (Lindex >= this->data->length()) return;
 
 			T Lvalue = this->data->get(Lindex);
 			T Rvalue = this->data->get(Rindex);
@@ -155,14 +150,14 @@ class MinHeap{
 		void heapifyUp(int index){
 			if (index == 0) return;
 
-			int parent = this->parent(index);
-			T Pvalue = this->data->get(parent);
+			int Iparent = this->parent(index);
+			T Pvalue = this->data->get(Iparent);
 			T value = this->data->get(index);
 
-			if (Pvalue < value){
+			if (value <= Pvalue){
 				this->data->set(index, Pvalue);
-				this->data->set(parent, value);
-				this->heapifyUp(parent);
+				this->data->set(Iparent, value);
+				this->heapifyUp(Iparent);
 			}
 		};
 
@@ -180,22 +175,23 @@ class MinHeap{
 };
 
 int main(){
+	try{
 	MinHeap<int> mh;
-	mh.insert(5);
-	mh.insert(8);
-	mh.insert(10);
-	mh.insert(0);
-	mh.insert(50);
+	std::cout << mh.insert(50) << ' ';
+	std::cout << mh.insert(8) << ' ';
+	std::cout << mh.insert(10) << ' ';
+	std::cout << mh.insert(7) << ' ';
+	std::cout << mh.insert(5) << ' ';
+	std::cout << mh.insert(4) << ' ';
+	std::cout << mh.insert(0) << ' ';
+	std::cout << mh.insert(1) << ' ';
+	std::cout << std::endl;
 
 	std::cout << mh.length() << std::endl;
 
-	int len = mh.length();
-	for (int i=0; i<len; i++){
-		std::cout << mh.data->get(i);
-	}
-	std::cout << std::endl;
+	std::cout << mh.data->toString() << std::endl;;
 
-	len = mh.length();
+	int len = mh.length();
 	std::cout << len << std::endl;
 	for (int i=0; i<len; i++){
 		std::cout << mh.remove() << ' ';
@@ -203,6 +199,11 @@ int main(){
 	std::cout << std::endl;
 
 	std::cout << mh.length() << std::endl;
+	}catch(const char* err){
+		std::cout << err << std::endl;
+	}
+
+	//std::cout << "oopsie doopsie, it's a max heap." << std::endl; // corriger
 
 	return 0;
 }
