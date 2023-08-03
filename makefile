@@ -9,7 +9,8 @@ push :
 
 dist : clean
 	$(info /!\ project folder has to be named $(PROJECTNAME) /!\ )
-	cd .. && tar zcvf $(PROJECTNAME)/$(PROJECTNAME).tgz $(PROJECTNAME) >/dev/null
+	cd .. && tar zcvf temp_archive.tgz $(PROJECTNAME) >/dev/null
+	mv ../temp_archive.tgz $(PROJECTNAME).tgz
 
 install : dist
 	mv $(PROJECTNAME).tgz ../opt/archive
