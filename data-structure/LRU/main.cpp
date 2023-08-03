@@ -12,9 +12,6 @@ struct node{
 template <class K, class T>
 class LRU{
 	public:
-		node<T>* head;
-		std::unordered_map<K, node<T>*> lookup;
-
 		LRU(int capacity = 10){
 			this->cap = capacity;
 			this->len = 0;
@@ -22,7 +19,9 @@ class LRU{
 		}
 
 		//TODO
-		~LRU(){};
+		~LRU(){
+			this->free(this->head);
+		};
 
 		T update(K key, T value){
 			if (this->lookup.find(key) == this->lookup.end()){
@@ -52,13 +51,17 @@ class LRU{
 			return node->value;
 		};
 
-		int length() { return this->len; };
-		int capacity() { return this->cap; };
+		int length(){ return this->len; };
+		int capacity(){ return this->cap; };
+
+		node<T>* getHead(){ return this->head; };
 
 	private:
 		int len;
 		int cap;
+		node<T>* head;
 		node<T>* tail;
+		std::unordered_map<K, node<T>*> lookup;
 		std::unordered_map<node<T>*, K> reverseLookup;
 
 		void detach(node<T>* node){
@@ -95,6 +98,14 @@ class LRU{
 
 			this->len--;
 		};
+
+		bool free(node<T>* node){
+			if (node == tail || this->free(node->next)){
+				delete node;
+				return true;
+			}
+			return false;
+		};
 };
 
 struct pied{
@@ -112,7 +123,7 @@ void display(pied p){
 
 template <typename K, typename T>
 void all(LRU<K, T>* l){
-	struct node<T>* cursor = l->head;
+	struct node<T>* cursor = l->getHead();
 	int len = l->length();
 	for (int i=0; i<len; i++){
 		display(cursor->value);
